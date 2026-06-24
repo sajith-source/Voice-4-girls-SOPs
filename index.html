@@ -1,0 +1,440 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Voice4Girls SOP Portal</title>
+<style>
+*{margin:0;padding:0;box-sizing:border-box}
+:root{--bg:#f7f7f5;--surface:#fff;--ink:#1a1a2e;--muted:#7a7a8a;--border:#e8e6e1;--accent:#4f46e5;--accent-light:#eef2ff;--green:#16a34a;--green-light:#f0fdf4;--red:#dc2626;--red-light:#fef2f2;--orange:#ea580c;--orange-light:#fff7ed;--teal:#0d9488;--teal-light:#f0fdfa;--radius:14px;--shadow:0 1px 3px rgba(0,0,0,.06),0 1px 2px rgba(0,0,0,.04);--shadow-lg:0 8px 24px rgba(0,0,0,.08)}
+body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',system-ui,sans-serif;background:var(--bg);color:var(--ink);line-height:1.6;-webkit-font-smoothing:antialiased}
+
+/* Nav */
+.topnav{position:sticky;top:0;z-index:100;background:rgba(255,255,255,.92);backdrop-filter:blur(12px);border-bottom:1px solid var(--border);padding:0 32px}
+.topnav-inner{max-width:1100px;margin:0 auto;display:flex;align-items:center;justify-content:space-between;height:56px}
+.topnav-brand{font-weight:800;font-size:15px;letter-spacing:-.3px;display:flex;align-items:center;gap:8px;text-decoration:none;color:var(--ink)}
+.topnav-brand .dot{width:8px;height:8px;border-radius:50%;background:var(--accent)}
+.topnav-links{display:flex;gap:2px}
+.topnav-links a{font-size:13px;color:var(--muted);text-decoration:none;padding:6px 12px;border-radius:6px;transition:all .15s;font-weight:500}
+.topnav-links a:hover,.topnav-links a.active{background:var(--accent-light);color:var(--accent)}
+
+/* Hero */
+.hero{max-width:1100px;margin:0 auto;padding:56px 32px 20px;text-align:center}
+.hero h1{font-size:44px;font-weight:800;letter-spacing:-1.5px;line-height:1.1;margin-bottom:10px}
+.hero p{font-size:17px;color:var(--muted);max-width:520px;margin:0 auto}
+.hero-tag-row{display:flex;gap:6px;justify-content:center;margin-bottom:18px;flex-wrap:wrap}
+.hero-tag{font-size:11px;font-weight:600;letter-spacing:.8px;text-transform:uppercase;padding:4px 10px;border-radius:20px;background:var(--accent-light);color:var(--accent)}
+
+/* SOP Grid */
+.sop-grid{max-width:1100px;margin:0 auto;padding:32px 32px 80px;display:grid;grid-template-columns:1fr 1fr;gap:20px}
+.sop-card{background:var(--surface);border:1px solid var(--border);border-radius:var(--radius);padding:28px;box-shadow:var(--shadow);text-decoration:none;color:var(--ink);transition:all .2s;cursor:pointer;display:flex;flex-direction:column;position:relative;overflow:hidden}
+.sop-card:hover{box-shadow:var(--shadow-lg);transform:translateY(-2px);border-color:var(--accent)}
+.sop-icon{width:48px;height:48px;border-radius:12px;display:flex;align-items:center;justify-content:center;font-size:22px;margin-bottom:16px;flex-shrink:0}
+.sop-card h2{font-size:18px;font-weight:700;margin-bottom:6px}
+.sop-card p{font-size:13.5px;color:var(--muted);flex:1}
+.sop-card .sop-meta{display:flex;gap:6px;margin-top:14px;flex-wrap:wrap}
+.sop-card .sop-chip{font-size:10px;font-weight:600;letter-spacing:.5px;text-transform:uppercase;padding:3px 8px;border-radius:20px;background:var(--bg);border:1px solid var(--border)}
+
+.ic-qcr{background:var(--accent-light);color:var(--accent)}
+.ic-obs{background:var(--teal-light);color:var(--teal)}
+.ic-photo{background:var(--green-light);color:var(--green)}
+.ic-data{background:var(--orange-light);color:var(--orange)}
+
+/* Page content */
+.page{display:none;max-width:900px;margin:0 auto;padding:32px 32px 80px}
+.page.active{display:block}
+.back-btn{display:inline-flex;align-items:center;gap:6px;font-size:13px;font-weight:500;color:var(--accent);text-decoration:none;padding:6px 12px;border-radius:6px;margin-bottom:20px;transition:all .15s}
+.back-btn:hover{background:var(--accent-light)}
+
+.page-header{margin-bottom:28px;padding-bottom:20px;border-bottom:2px solid var(--ink)}
+.page-header h1{font-size:28px;font-weight:800;letter-spacing:-.5px;margin-bottom:4px}
+.page-header p{font-size:15px;color:var(--muted)}
+
+/* Card */
+.card{background:var(--surface);border:1px solid var(--border);border-radius:var(--radius);padding:24px;margin-bottom:16px;box-shadow:var(--shadow)}
+.card-head{display:flex;align-items:center;gap:10px;margin-bottom:14px}
+.card-num{width:30px;height:30px;border-radius:8px;background:var(--accent);color:#fff;display:flex;align-items:center;justify-content:center;font-size:13px;font-weight:700;flex-shrink:0}
+.card-title{font-size:17px;font-weight:700}
+.card p{font-size:13.5px;margin-bottom:6px;color:var(--muted)}
+.card p strong{color:var(--ink)}
+
+/* Tags */
+.tag{display:inline-block;font-size:9px;font-weight:700;letter-spacing:.5px;text-transform:uppercase;padding:2px 6px;border-radius:4px;color:#fff;vertical-align:middle;margin-left:3px}
+.t-auto{background:var(--red)}.t-edit{background:var(--green)}.t-daily{background:var(--orange)}.t-ro{background:var(--accent)}.t-day{background:#333}
+
+/* Alerts */
+.alert{border-radius:10px;padding:12px 16px;font-size:12.5px;margin-bottom:12px;display:flex;align-items:flex-start;gap:8px}
+.a-red{background:var(--red-light);color:var(--red)}.a-orange{background:var(--orange-light);color:var(--orange)}.a-green{background:var(--green-light);color:var(--green)}.a-accent{background:var(--accent-light);color:var(--accent)}.a-teal{background:var(--teal-light);color:var(--teal)}
+
+/* Column rows */
+.col-list{margin-top:8px}
+.col-row{display:flex;align-items:center;gap:8px;padding:6px 12px;border-radius:6px;margin-bottom:3px;font-size:12.5px}
+.r-auto{background:var(--red-light)}.r-edit{background:var(--green-light)}.r-daily{background:var(--orange-light)}
+.col-n{font-weight:600;min-width:150px;flex-shrink:0;color:var(--ink)}.col-d{color:var(--muted)}
+
+/* Field list */
+.fl{margin-top:8px}.fl-row{display:flex;align-items:flex-start;gap:8px;padding:6px 0;border-bottom:1px dotted var(--border);font-size:13px}
+.fl-row:last-child{border-bottom:none}.fl-n{font-weight:600;min-width:170px;flex-shrink:0}.fl-d{color:var(--muted)}
+
+/* Tab grid */
+.tab-grid{border-radius:10px;overflow:hidden;border:1px solid var(--border);margin-top:10px}
+.tab-r{display:flex;align-items:center;justify-content:space-between;padding:8px 14px;border-bottom:1px solid var(--border);font-size:13px}
+.tab-r:last-child{border-bottom:none}.tab-r:nth-child(even){background:#fafaf8}
+.tab-n{font-weight:600}
+.sb{font-size:9px;font-weight:700;letter-spacing:.5px;text-transform:uppercase;padding:3px 7px;border-radius:20px}
+.sb-l{background:var(--red-light);color:var(--red)}.sb-e{background:var(--green-light);color:var(--green)}.sb-p{background:var(--orange-light);color:var(--orange)}.sb-r{background:var(--accent-light);color:var(--accent)}
+
+/* Compare */
+.compare{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-top:10px}
+.cmp{border-radius:10px;padding:16px;font-size:12.5px}
+.cmp-a{background:var(--accent-light);border:1px solid #c7d2fe}.cmp-b{background:var(--green-light);border:1px solid #bbf7d0}
+.cmp-label{font-size:9px;font-weight:700;letter-spacing:1px;text-transform:uppercase;margin-bottom:4px}
+.cmp-a .cmp-label{color:var(--accent)}.cmp-b .cmp-label{color:var(--green)}
+
+/* Setup grid */
+.sg{display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-top:8px}
+.sg-item{background:var(--accent-light);border-radius:8px;padding:10px 12px;font-size:12.5px}
+.sg-l{font-size:9px;font-weight:700;letter-spacing:.8px;text-transform:uppercase;color:var(--accent);margin-bottom:2px}
+
+/* Batch */
+.bg{display:grid;grid-template-columns:repeat(3,1fr);gap:8px;margin-top:10px}
+.bc{background:var(--bg);border:1px solid var(--border);border-radius:10px;padding:14px;text-align:center}
+.bc-n{font-size:10px;font-weight:700;letter-spacing:1px;text-transform:uppercase;color:var(--muted)}
+.bc-c{font-size:15px;font-weight:700;margin-top:2px}
+.bc-cl{font-size:11px;color:var(--muted);margin-top:3px}
+
+/* Timeline */
+.tl-bar{display:flex;margin-top:10px;border-radius:10px;overflow:hidden;border:1px solid var(--border)}
+.tl{flex:1;padding:8px 3px;text-align:center;border-right:1px solid var(--border);background:#fff}
+.tl:last-child{border-right:none}.tl.on{background:var(--accent-light)}.tl.warn{background:var(--orange-light)}
+.tl-d{font-size:9px;font-weight:700;letter-spacing:.5px;text-transform:uppercase;color:var(--muted)}
+.tl-a{font-size:9px;font-weight:700;margin-top:1px;color:var(--ink)}
+
+/* Dates */
+.dates{display:grid;grid-template-columns:repeat(4,1fr);gap:8px;margin-top:10px}
+.dc{border-radius:10px;padding:14px;text-align:center}
+.dc-1{background:var(--accent-light)}.dc-2{background:var(--green-light)}.dc-3{background:var(--red-light)}.dc-4{background:var(--bg);border:1px solid var(--border)}
+.dc-w{font-size:9px;font-weight:700;letter-spacing:1px;text-transform:uppercase;color:var(--muted)}
+.dc-c{font-size:20px;font-weight:800;margin:3px 0}
+.dc-t{font-size:11px;color:var(--muted)}
+
+/* Steps */
+.steps{margin-top:8px}
+.step{display:flex;align-items:flex-start;gap:10px;padding:8px 0;border-bottom:1px solid var(--border);font-size:13px}
+.step:last-child{border-bottom:none}
+.sn{width:24px;height:24px;border-radius:50%;background:var(--ink);color:#fff;display:flex;align-items:center;justify-content:center;font-size:11px;font-weight:700;flex-shrink:0;margin-top:1px}
+
+/* Rules */
+.rules{display:grid;grid-template-columns:1fr 1fr;gap:6px;margin-top:8px}
+.rule{background:var(--red-light);border-radius:8px;padding:10px 12px;font-size:12px;color:var(--red);font-weight:500}
+
+/* Checklist */
+.cl{margin-top:8px}.cli{display:flex;align-items:flex-start;gap:8px;padding:6px 0;border-bottom:1px solid var(--border);font-size:13px}
+.cli:last-child{border-bottom:none}
+.cb{width:16px;height:16px;border:2px solid var(--accent);border-radius:3px;flex-shrink:0;margin-top:3px}
+
+/* Photo breakdown */
+.photo-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:8px;margin-top:10px}
+.photo-card{text-align:center;padding:14px;border-radius:10px;border:1px solid var(--border);background:#fff}
+.photo-num{font-size:28px;font-weight:800;color:var(--accent);line-height:1}
+.photo-label{font-size:10px;font-weight:700;letter-spacing:1px;text-transform:uppercase;color:var(--muted);margin-top:3px}
+.photo-desc{font-size:11px;color:var(--ink);margin-top:4px}
+
+/* Rating scale */
+.scale{display:grid;grid-template-columns:repeat(4,1fr);gap:6px;margin-top:10px}
+.sc{text-align:center;padding:12px 8px;border-radius:8px;font-size:12px}
+.sc-1{background:#fef2f2;color:#dc2626}.sc-2{background:#fff7ed;color:#ea580c}.sc-3{background:#f0fdf4;color:#16a34a}.sc-4{background:#eef2ff;color:#4f46e5}
+.sc-n{font-size:24px;font-weight:800;line-height:1}
+.sc-t{margin-top:3px}
+
+/* Staff grid */
+.staff-table{width:100%;border-collapse:collapse;margin-top:10px;font-size:12.5px;border-radius:8px;overflow:hidden;border:1px solid var(--border)}
+.staff-table th{background:var(--ink);color:#fff;font-size:10px;letter-spacing:1px;text-transform:uppercase;padding:8px 10px;text-align:left}
+.staff-table td{padding:6px 10px;border-bottom:1px solid var(--border)}
+.staff-table tr:nth-child(even) td{background:#fafaf8}
+
+/* Row tags */
+.rtags{display:flex;flex-wrap:wrap;gap:4px;margin-top:6px}
+.rtag{font-size:11px;font-weight:700;padding:3px 8px;border-radius:6px;background:var(--bg);border:1px solid var(--border)}
+
+/* Naming table */
+.nm-table{width:100%;border-collapse:collapse;margin-top:10px;font-size:12.5px;border:1px solid var(--border);border-radius:8px;overflow:hidden}
+.nm-table th{background:var(--ink);color:#fff;font-size:10px;letter-spacing:1px;text-transform:uppercase;padding:8px 10px;text-align:left}
+.nm-table td{padding:6px 10px;border-bottom:1px solid var(--border)}
+.nm-table tr:nth-child(even) td{background:#fafaf8}
+.nm-table .mono{font-family:'Courier New',monospace;font-size:11px}
+
+/* Flow */
+.flow{display:flex;align-items:center;gap:0;margin:12px 0;flex-wrap:wrap;justify-content:center}
+.flow-s{background:#fff;border:1px solid var(--border);border-radius:6px;padding:8px 12px;font-size:11px;text-align:center;min-width:80px;line-height:1.3}
+.flow-s strong{display:block;font-size:9px;letter-spacing:1px;text-transform:uppercase;color:var(--accent);margin-bottom:1px}
+.flow-a{font-size:16px;color:var(--border);padding:0 3px}
+
+/* Divider */
+.divider{display:flex;align-items:center;gap:12px;margin:24px 0 10px}
+.divider hr{flex:1;border:none;border-top:2px dashed var(--border)}
+.divider span{font-size:10px;font-weight:700;letter-spacing:2px;text-transform:uppercase;color:var(--accent);white-space:nowrap}
+
+.footer{max-width:1100px;margin:0 auto;padding:24px 32px;border-top:1px solid var(--border);font-size:12px;color:var(--muted);display:flex;justify-content:space-between}
+
+@media(max-width:768px){.sop-grid{grid-template-columns:1fr}.compare,.sg,.rules,.dates,.bg,.photo-grid,.scale{grid-template-columns:1fr}.col-row,.fl-row{flex-direction:column;gap:2px}.col-n,.fl-n{min-width:unset}.tl-bar{flex-wrap:wrap}.hero h1{font-size:28px}.topnav-links{display:none}.page{padding:20px 16px 80px}}
+</style>
+</head>
+<body>
+
+<nav class="topnav">
+  <div class="topnav-inner">
+    <a class="topnav-brand" href="#" onclick="showHome()"><span class="dot"></span> Voice4Girls SOP</a>
+    <div class="topnav-links">
+      <a href="#" onclick="showPage('qcr')">QCR Form</a>
+      <a href="#" onclick="showPage('obs')">Observation</a>
+      <a href="#" onclick="showPage('photo')">Photo Upload</a>
+      <a href="#" onclick="showPage('data')">Camper Data</a>
+    </div>
+  </div>
+</nav>
+
+<!-- HOME -->
+<div id="home">
+  <div class="hero">
+    <div class="hero-tag-row">
+      <span class="hero-tag">Disha</span><span class="hero-tag">Sakhi</span><span class="hero-tag">Supernova</span><span class="hero-tag">Parichay</span><span class="hero-tag">Fireflies</span>
+    </div>
+    <h1>Camp SOPs</h1>
+    <p>Standard Operating Procedures for Field Coordinators and Camp Counsellors. All camps, all forms, one portal.</p>
+  </div>
+  <div class="sop-grid">
+    <a class="sop-card" onclick="showPage('qcr')">
+      <div class="sop-icon ic-qcr">&#9745;</div>
+      <h2>QCR Form</h2>
+      <p>Daily Quality Check Report. Attendance, staff status, issues, sessions, testimonials, and photos. One submission per camp per day.</p>
+      <div class="sop-meta"><span class="sop-chip">9 Sections</span><span class="sop-chip">Daily</span><span class="sop-chip">All Camps</span></div>
+    </a>
+    <a class="sop-card" onclick="showPage('obs')">
+      <div class="sop-icon ic-obs">&#9998;</div>
+      <h2>Classroom Observation</h2>
+      <p>FC observes CCs during sessions. 5 forms per day (3 morning, 2 afternoon). Must observe the full activity.</p>
+      <div class="sop-meta"><span class="sop-chip">8 Sections</span><span class="sop-chip">5x Daily</span><span class="sop-chip">FC Only</span></div>
+    </a>
+    <a class="sop-card" onclick="showPage('photo')">
+      <div class="sop-icon ic-photo">&#128247;</div>
+      <h2>Daily Photo Upload</h2>
+      <p>Upload 10 photos per day to Google Drive. FC and CC folders. Day X.Y naming convention.</p>
+      <div class="sop-meta"><span class="sop-chip">3 Sections</span><span class="sop-chip">10 Photos/Day</span><span class="sop-chip">FC + CC</span></div>
+    </a>
+    <a class="sop-card" onclick="showPage('data')">
+      <div class="sop-icon ic-data">&#128202;</div>
+      <h2>Camper Data Sheet</h2>
+      <p>Google Sheet with attendance, IA scores, batches, and ratings. RO setup, then FC fills daily.</p>
+      <div class="sop-meta"><span class="sop-chip">10 Sections</span><span class="sop-chip">All Camps</span><span class="sop-chip">RO + FC</span></div>
+    </a>
+  </div>
+</div>
+
+<!-- QCR FORM PAGE -->
+<div class="page" id="page-qcr">
+  <a class="back-btn" onclick="showHome()">&larr; All SOPs</a>
+  <div class="page-header"><h1>eQCR Form: Daily Quality Check Report</h1><p>One submission per camp, per day. Fill at the end of each camp day.</p></div>
+
+  <div class="alert a-accent"><span>!</span><span><strong>One submission per camp, per day.</strong> Documents attendance, staff, issues, sessions, visitors, testimonials, and photos.</span></div>
+
+  <div class="card"><div class="card-head"><div class="card-num">01</div><div class="card-title">Basic Details</div></div><div class="fl"><div class="fl-row"><span class="fl-n">Date</span><span class="fl-d">Date of the camp day you're reporting.</span></div><div class="fl-row"><span class="fl-n">Camp Day</span><span class="fl-d">Day 0 through Day 10.</span></div><div class="fl-row"><span class="fl-n">Your Name</span><span class="fl-d">Full name.</span></div><div class="fl-row"><span class="fl-n">Which Camp</span><span class="fl-d">Determines the school list in the next step.</span></div></div></div>
+
+  <div class="card"><div class="card-head"><div class="card-num">02</div><div class="card-title">School Selection</div></div><p>Select the school(s) from the dropdown for your camp. The list varies by camp location.</p></div>
+
+  <div class="card"><div class="card-head"><div class="card-num">03</div><div class="card-title">Camper Attendance</div></div><div class="fl"><div class="fl-row"><span class="fl-n">Students Allotted</span><span class="fl-d">Provided by your Reporting Officer.</span></div><div class="fl-row"><span class="fl-n">Students Reported</span><span class="fl-d">Checked in. After Day 4 morning, no new campers.</span></div><div class="fl-row"><span class="fl-n">Students Present</span><span class="fl-d">Present for the day's sessions.</span></div><div class="fl-row"><span class="fl-n">Students Absent</span><span class="fl-d">Absent for the day.</span></div><div class="fl-row"><span class="fl-n">Reason for Absentees</span><span class="fl-d">Illness, travel, personal reasons, etc.</span></div><div class="fl-row"><span class="fl-n">No. of Dropouts</span><span class="fl-d">Only when sure they can't attain 70% attendance.</span></div><div class="fl-row"><span class="fl-n">Reason for Dropouts</span><span class="fl-d">Why the student dropped out.</span></div></div><div class="alert a-teal" style="margin-top:10px"><span>!</span><span><strong>Formula:</strong> Reported = Present + Absent + Dropouts</span></div></div>
+
+  <div class="card"><div class="card-head"><div class="card-num">04</div><div class="card-title">Staff Availability</div></div><p>Mark each staff role's status using the grid.</p><table class="staff-table"><thead><tr><th>Staff Role</th><th>Available</th><th>On Leave</th><th>AWOL</th><th>NA</th></tr></thead><tbody><tr><td>PET</td><td>&#9675;</td><td>&#9675;</td><td>&#9675;</td><td>&#9675;</td></tr><tr><td>Warden</td><td>&#9675;</td><td>&#9675;</td><td>&#9675;</td><td>&#9675;</td></tr><tr><td>Cooking Staff</td><td>&#9675;</td><td>&#9675;</td><td>&#9675;</td><td>&#9675;</td></tr><tr><td>Cleaning Staff</td><td>&#9675;</td><td>&#9675;</td><td>&#9675;</td><td>&#9675;</td></tr><tr><td>Watchman</td><td>&#9675;</td><td>&#9675;</td><td>&#9675;</td><td>&#9675;</td></tr></tbody></table></div>
+
+  <div class="card"><div class="card-head"><div class="card-num">05</div><div class="card-title">Issues on Camp Location</div></div><div class="fl"><div class="fl-row"><span class="fl-n">Issue Description</span><span class="fl-d">What happened. Write "No issues" if none.</span></div><div class="fl-row"><span class="fl-n">Issue Explanation</span><span class="fl-d">Why it happened.</span></div><div class="fl-row"><span class="fl-n">Next Action Item</span><span class="fl-d">What needs to be done.</span></div></div></div>
+
+  <div class="card"><div class="card-head"><div class="card-num">06</div><div class="card-title">Sessions Overview</div></div><div class="fl"><div class="fl-row"><span class="fl-n">Chapter</span><span class="fl-d">Chapter/module covered today.</span></div><div class="fl-row"><span class="fl-n">Camp Logistics</span><span class="fl-d">Transport, materials, timings.</span></div><div class="fl-row"><span class="fl-n">Camp Visitor</span><span class="fl-d">Were there visitors?</span></div></div></div>
+
+  <div class="card"><div class="card-head"><div class="card-num">07</div><div class="card-title">Camp Visitor Details</div></div><div class="fl"><div class="fl-row"><span class="fl-n">Visitor Name</span><span class="fl-d">Enter name(s). "None" if no visitors.</span></div><div class="fl-row"><span class="fl-n">Purpose of Visit</span><span class="fl-d">Inspection, observation, support, etc.</span></div></div></div>
+
+  <div class="card"><div class="card-head"><div class="card-num">08</div><div class="card-title">Testimonials and Day Summary</div></div><div class="fl"><div class="fl-row"><span class="fl-n">Testimonial 1 + Photo</span><span class="fl-d">Written testimonial + photo upload.</span></div><div class="fl-row"><span class="fl-n">Testimonial 2 + Photo</span><span class="fl-d">Second testimonial + photo.</span></div><div class="fl-row"><span class="fl-n">Overall Summary</span><span class="fl-d">Your summary of the camp day.</span></div></div></div>
+
+  <div class="card"><div class="card-head"><div class="card-num">09</div><div class="card-title">Photo Uploads (QCR)</div></div><p>Upload <strong>7 photos</strong>. All must be <strong>4:3 aspect ratio, landscape</strong>.</p><div class="photo-grid"><div class="photo-card"><p class="photo-num">2</p><p class="photo-label">Activity</p><p class="photo-desc">Tasks or operations</p></div><div class="photo-card"><p class="photo-num">2</p><p class="photo-label">Interaction</p><p class="photo-desc">Discussions or briefings</p></div><div class="photo-card"><p class="photo-num">3</p><p class="photo-label">Group</p><p class="photo-desc">Full team photos</p></div></div></div>
+</div>
+
+<!-- OBSERVATION PAGE -->
+<div class="page" id="page-obs">
+  <a class="back-btn" onclick="showHome()">&larr; All SOPs</a>
+  <div class="page-header"><h1>FC's Classroom Observation Form</h1><p>Filled by Field Coordinators (FCs) to observe and evaluate Camp Counsellors (CCs).</p></div>
+
+  <div class="alert a-orange"><span>!</span><span><strong>5 observations per day.</strong> 3 in the morning, 2 in the afternoon. Each must cover a whole activity from start to finish.</span></div>
+
+  <div class="card"><div class="card-head"><div class="card-num">01</div><div class="card-title">Your Details</div></div><div class="fl"><div class="fl-row"><span class="fl-n">Your Name</span><span class="fl-d">FC filling this form.</span></div><div class="fl-row"><span class="fl-n">Which Camp</span><span class="fl-d">Determines the school list.</span></div></div></div>
+
+  <div class="card"><div class="card-head"><div class="card-num">02</div><div class="card-title">School Selection</div></div><p>Select the school from the dropdown for your camp.</p></div>
+
+  <div class="card"><div class="card-head"><div class="card-num">03</div><div class="card-title">Details of the Classroom</div></div><div class="fl"><div class="fl-row"><span class="fl-n">CC Name</span><span class="fl-d">Camp Counsellor being observed.</span></div><div class="fl-row"><span class="fl-n">No. of Students</span><span class="fl-d">Students present in class.</span></div><div class="fl-row"><span class="fl-n">Chapter Name</span><span class="fl-d">Module being taught.</span></div><div class="fl-row"><span class="fl-n">Activity Name</span><span class="fl-d">Specific activity being observed.</span></div><div class="fl-row"><span class="fl-n">From Beginning?</span><span class="fl-d">Must be Yes. Observe the full activity.</span></div><div class="fl-row"><span class="fl-n">Minutes Since Start</span><span class="fl-d">How long since the activity began.</span></div><div class="fl-row"><span class="fl-n">Charts on Walls?</span><span class="fl-d">Are activity charts displayed?</span></div></div></div>
+
+  <div class="card"><div class="card-head"><div class="card-title">Rating Scale (Sections 04 to 06)</div></div><div class="scale"><div class="sc sc-1"><p class="sc-n">1</p><p class="sc-t">Not at all</p></div><div class="sc sc-2"><p class="sc-n">2</p><p class="sc-t">Could improve</p></div><div class="sc sc-3"><p class="sc-n">3</p><p class="sc-t">Acceptable</p></div><div class="sc sc-4"><p class="sc-n">4</p><p class="sc-t">Excellent</p></div></div></div>
+
+  <div class="card"><div class="card-head"><div class="card-num">04</div><div class="card-title">Preparation of the CC</div></div><p>Rate 1 to 4:</p><div class="fl"><div class="fl-row"><span class="fl-n">4.1</span><span class="fl-d">Prepared well with content</span></div><div class="fl-row"><span class="fl-n">4.2</span><span class="fl-d">Materials ready beforehand</span></div><div class="fl-row"><span class="fl-n">4.3</span><span class="fl-d">Has command of content</span></div><div class="fl-row"><span class="fl-n">4.4</span><span class="fl-d">Understands goals and objectives</span></div></div></div>
+
+  <div class="card"><div class="card-head"><div class="card-num">05</div><div class="card-title">Organisation of the CC</div></div><p>Rate 1 to 4:</p><div class="fl"><div class="fl-row"><span class="fl-n">5.1</span><span class="fl-d">Completes activities on time</span></div><div class="fl-row"><span class="fl-n">5.2</span><span class="fl-d">Follows book instructions</span></div><div class="fl-row"><span class="fl-n">5.3</span><span class="fl-d">Confident, manages physical setup</span></div><div class="fl-row"><span class="fl-n">5.4</span><span class="fl-d">Effective group activity planning</span></div><div class="fl-row"><span class="fl-n">5.5</span><span class="fl-d">Good classroom control and learning environment</span></div></div></div>
+
+  <div class="card"><div class="card-head"><div class="card-num">06</div><div class="card-title">Interaction with Campers</div></div><p>Rate 1 to 4:</p><div class="fl"><div class="fl-row"><span class="fl-n">6.1</span><span class="fl-d">Positive attitude with campers</span></div><div class="fl-row"><span class="fl-n">6.2</span><span class="fl-d">Checks understanding through questions</span></div><div class="fl-row"><span class="fl-n">6.3</span><span class="fl-d">Manages active and non-active campers</span></div><div class="fl-row"><span class="fl-n">6.4</span><span class="fl-d">Encourages participation</span></div><div class="fl-row"><span class="fl-n">6.5</span><span class="fl-d">Friendly rapport with clear boundaries</span></div></div></div>
+
+  <div class="card"><div class="card-head"><div class="card-num">07</div><div class="card-title">Facilitation and Engagement Review</div></div><div class="fl"><div class="fl-row"><span class="fl-n">All participating?</span><span class="fl-d">Energizers and activity.</span></div><div class="fl-row"><span class="fl-n">All understanding?</span><span class="fl-d">Content comprehension.</span></div><div class="fl-row"><span class="fl-n">Struggling topics</span><span class="fl-d">"NA" if everyone understood.</span></div><div class="fl-row"><span class="fl-n">Questions asked?</span><span class="fl-d">Did campers ask the CC questions?</span></div><div class="fl-row"><span class="fl-n">Questions answered</span><span class="fl-d">How many were answered.</span></div><div class="fl-row"><span class="fl-n">Unanswered handling</span><span class="fl-d">"NA" if all answered.</span></div><div class="fl-row"><span class="fl-n">Factual errors?</span><span class="fl-d">Did the CC make errors?</span></div><div class="fl-row"><span class="fl-n">Error details</span><span class="fl-d">"NA" if no errors.</span></div></div></div>
+
+  <div class="card"><div class="card-head"><div class="card-num">08</div><div class="card-title">Overall Performance</div></div><div class="fl"><div class="fl-row"><span class="fl-n">Rating (1 to 5)</span><span class="fl-d">Overall CC performance.</span></div><div class="fl-row"><span class="fl-n">Justify Rating</span><span class="fl-d">Why you gave this score.</span></div><div class="fl-row"><span class="fl-n">Observed Strengths</span><span class="fl-d">What the CC did well.</span></div><div class="fl-row"><span class="fl-n">Suggestions</span><span class="fl-d">What the CC should work on.</span></div><div class="fl-row"><span class="fl-n">Additional Comments</span><span class="fl-d">Any other observations.</span></div></div></div>
+</div>
+
+<!-- PHOTO UPLOAD PAGE -->
+<div class="page" id="page-photo">
+  <a class="back-btn" onclick="showHome()">&larr; All SOPs</a>
+  <div class="page-header"><h1>Google Drive: Daily Photo Upload</h1><p>For FCs and CCs. 10 photos per day to the shared Drive folder.</p></div>
+
+  <div class="alert a-green"><span>!</span><span><strong>10 photos per day.</strong> Both FCs and CCs upload to their respective folder. Use Day X.Y naming.</span></div>
+
+  <div class="card"><div class="card-head"><div class="card-num">01</div><div class="card-title">Where to Upload</div></div><div class="flow"><div class="flow-s"><strong>Root</strong>FC Deliverables</div><div class="flow-a">&rarr;</div><div class="flow-s"><strong>Folder</strong>Photos</div><div class="flow-a">&rarr;</div><div class="flow-s" style="border-color:var(--accent);background:var(--accent-light)"><strong>Your Folder</strong>FC or CC</div></div></div>
+
+  <div class="card"><div class="card-head"><div class="card-num">02</div><div class="card-title">Naming Convention</div></div><p>Every file: <strong>Day [camp day].[photo number]</strong></p><table class="nm-table"><thead><tr><th>Camp Day</th><th>Photo Files</th></tr></thead><tbody><tr><td>Day 0</td><td class="mono">Day 0.1, Day 0.2 ... Day 0.10</td></tr><tr><td>Day 1</td><td class="mono">Day 1.1, Day 1.2 ... Day 1.10</td></tr><tr><td>Day 2</td><td class="mono">Day 2.1, Day 2.2 ... Day 2.10</td></tr><tr><td>...</td><td class="mono">...</td></tr><tr><td>Day 10</td><td class="mono">Day 10.1, Day 10.2 ... Day 10.10</td></tr></tbody></table></div>
+
+  <div class="card"><div class="card-head"><div class="card-num">03</div><div class="card-title">Rules</div></div><div class="cl"><div class="cli"><div class="cb"></div><span>Upload exactly 10 photos every camp day</span></div><div class="cli"><div class="cb"></div><span>Name each file as Day X.Y (no random names like IMG_001)</span></div><div class="cli"><div class="cb"></div><span>Upload to the correct folder (FC or CC)</span></div><div class="cli"><div class="cb"></div><span>Upload on the same day. Don't batch multiple days.</span></div><div class="cli"><div class="cb"></div><span>Day numbering matches your QCR form camp day (Day 0 to Day 10)</span></div></div></div>
+</div>
+
+<!-- CAMPER DATA PAGE -->
+<div class="page" id="page-data">
+  <a class="back-btn" onclick="showHome()">&larr; All SOPs</a>
+  <div class="page-header"><h1>Camper Data Sheet</h1><p>Complete guide for ROs and FCs across all camp programmes.</p></div>
+
+  <div class="card"><div class="card-head"><div class="card-title">Sheet Tabs</div></div><div class="tab-grid"><div class="tab-r"><span class="tab-n">Instructions (FC)</span><span class="sb sb-l">Read Only</span></div><div class="tab-r"><span class="tab-n">Previous Camper Details</span><span class="sb sb-l">Automated</span></div><div class="tab-r"><span class="tab-n">1. Camp Details</span><span class="sb sb-r">RO Setup</span></div><div class="tab-r"><span class="tab-n">2. End of Camper Data</span><span class="sb sb-e">FC Editable</span></div><div class="tab-r"><span class="tab-n">3. Camper Data + Principal Signature</span><span class="sb sb-l">Automated</span></div><div class="tab-r"><span class="tab-n">4. Dropout List</span><span class="sb sb-l">Automated</span></div><div class="tab-r"><span class="tab-n">5. Attendance Summary</span><span class="sb sb-l">Automated</span></div><div class="tab-r"><span class="tab-n">6. Counsellor List + FC</span><span class="sb sb-e">FC Editable</span></div><div class="tab-r"><span class="tab-n">7. Acknowledgement</span><span class="sb sb-l">Automated</span></div><div class="tab-r"><span class="tab-n">8. Camp Coordinator Report</span><span class="sb sb-p">Partial Edit</span></div></div><div class="alert a-red" style="margin-top:10px"><span>!</span><span><strong>Automation Protection.</strong> Tampering with protected sheets or formulas may lead to serious action.</span></div></div>
+
+  <div class="divider"><hr><span>Reporting Officer</span><hr></div>
+
+  <div class="card"><div class="card-head"><div class="card-num">01</div><div class="card-title">RO Initial Setup <span class="tag t-ro">One-time</span></div></div><p>Complete in <strong>Camp Details</strong> tab before handing to FC.</p><div class="sg"><div class="sg-item"><p class="sg-l">Camp Name</p><p style="color:var(--ink)">Disha / Sakhi / Supernova / Parichay / Fireflies</p></div><div class="sg-item"><p class="sg-l">Start Date</p><p style="color:var(--ink)">End Date auto-calculates</p></div><div class="sg-item"><p class="sg-l">Institute Name</p><p style="color:var(--ink)">Full name. Short form in B33.</p></div><div class="sg-item"><p class="sg-l">District</p><p style="color:var(--ink)">Camp location</p></div><div class="sg-item"><p class="sg-l">Principal Name</p><p style="color:var(--ink)">Collect from FC</p></div><div class="sg-item"><p class="sg-l">Previous Camp Link</p><p style="color:var(--ink)">Disha/Sakhi/Supernova only</p></div></div><div class="compare" style="margin-top:14px"><div class="cmp cmp-a"><p class="cmp-label">Disha / Sakhi / Supernova</p><p style="color:var(--ink)">B32: Previous Camp sheet link<br>B33: Sheet name<br>B34: Camp location name</p></div><div class="cmp cmp-b"><p class="cmp-label">Parichay / Fireflies</p><p style="color:var(--ink)"><strong>No previous camp linkage.</strong> First module. B32 to B34 don't apply.</p></div></div></div>
+
+  <!-- CAMP DETAILS SHEET MOCKUP -->
+  <div class="card" style="overflow-x:auto;">
+    <div class="card-head"><div class="card-title">Camp Details Sheet (How it looks)</div></div>
+    <div style="border:1px solid var(--border);border-radius:10px;overflow:hidden;margin-top:8px;min-width:600px;">
+      <!-- Section 1: Camp Details -->
+      <div style="background:#6b2139;color:#fff;padding:10px 16px;font-weight:700;font-style:italic;font-size:14px;">Camp Details</div>
+      <table style="width:100%;border-collapse:collapse;font-size:12.5px;">
+        <tr><td style="padding:8px 14px;border-bottom:1px solid var(--border);font-weight:600;width:45%;background:#f0fdf4;">CAMP NAME</td><td style="padding:8px 14px;border-bottom:1px solid var(--border);background:#e8f5e9;">Her VOICE - SAKHI PEER LEADERSHIP</td><td style="padding:8px 14px;border-bottom:1px solid var(--border);width:120px;"><span class="tag t-ro" style="margin:0">Filled by RO</span></td></tr>
+        <tr><td style="padding:8px 14px;border-bottom:1px solid var(--border);font-weight:600;background:#f0fdf4;">CAMP DATE (START)</td><td style="padding:8px 14px;border-bottom:1px solid var(--border);background:#e8f5e9;">25-June-2026</td><td style="padding:8px 14px;border-bottom:1px solid var(--border);"><span class="tag t-ro" style="margin:0">Filled by RO</span></td></tr>
+        <tr><td style="padding:8px 14px;border-bottom:1px solid var(--border);font-weight:600;background:#f0fdf4;">CAMP DATE (END)</td><td style="padding:8px 14px;border-bottom:1px solid var(--border);background:#e8f5e9;">04-July-2026</td><td style="padding:8px 14px;border-bottom:1px solid var(--border);color:var(--red);font-weight:700;font-size:11px;">&#9940; Don't Touch</td></tr>
+        <tr><td style="padding:8px 14px;border-bottom:1px solid var(--border);font-weight:600;background:#f0fdf4;">Full Name of the Institute</td><td style="padding:8px 14px;border-bottom:1px solid var(--border);background:#e8f5e9;color:var(--muted);font-style:italic;">Enter here</td><td style="padding:8px 14px;border-bottom:1px solid var(--border);"><span class="tag t-ro" style="margin:0">Filled by RO</span></td></tr>
+        <tr><td style="padding:8px 14px;border-bottom:1px solid var(--border);font-weight:600;background:#f0fdf4;">Name of the Institute (short form)</td><td style="padding:8px 14px;border-bottom:1px solid var(--border);background:#e8f5e9;color:var(--muted);font-style:italic;">Enter here</td><td style="padding:8px 14px;border-bottom:1px solid var(--border);"><span class="tag t-ro" style="margin:0">Filled by RO</span></td></tr>
+        <tr><td style="padding:8px 14px;border-bottom:1px solid var(--border);font-weight:600;background:#f0fdf4;">District</td><td style="padding:8px 14px;border-bottom:1px solid var(--border);background:#e8f5e9;color:var(--muted);font-style:italic;">Enter here</td><td style="padding:8px 14px;border-bottom:1px solid var(--border);"><span class="tag t-ro" style="margin:0">Filled by RO</span></td></tr>
+        <tr><td style="padding:8px 14px;border-bottom:1px solid var(--border);font-weight:600;background:#f0fdf4;">Days of the camp</td><td style="padding:8px 14px;border-bottom:1px solid var(--border);background:#e8f5e9;">10</td><td style="padding:8px 14px;border-bottom:1px solid var(--border);"><span class="tag t-ro" style="margin:0">Filled by RO</span></td></tr>
+      </table>
+      <!-- Section 2: Test -->
+      <div style="background:#6b2139;color:#fff;padding:10px 16px;font-weight:700;font-style:italic;font-size:14px;display:flex;justify-content:space-between;"><span>Test</span><span>No of Campers attended IA</span></div>
+      <table style="width:100%;border-collapse:collapse;font-size:12.5px;">
+        <tr><td style="padding:8px 14px;border-bottom:1px solid var(--border);font-weight:600;width:45%;background:#f0fdf4;">Pre IA</td><td style="padding:8px 14px;border-bottom:1px solid var(--border);background:#e8f5e9;">0</td><td rowspan="3" style="padding:8px 14px;border-bottom:1px solid var(--border);color:var(--red);font-weight:700;font-size:11px;text-align:center;width:120px;background:#fef2f2;">&#9940; Don't Touch</td></tr>
+        <tr><td style="padding:8px 14px;border-bottom:1px solid var(--border);font-weight:600;background:#f0fdf4;">Post IA</td><td style="padding:8px 14px;border-bottom:1px solid var(--border);background:#e8f5e9;">0</td></tr>
+        <tr><td style="padding:8px 14px;border-bottom:1px solid var(--border);font-weight:600;background:#1a6b3a;color:#fff;">Both IA</td><td style="padding:8px 14px;border-bottom:1px solid var(--border);background:#1a6b3a;color:#fff;">0</td></tr>
+      </table>
+      <!-- Section 3: Acknowledgement -->
+      <div style="background:#6b2139;color:#fff;padding:10px 16px;font-weight:700;font-style:italic;font-size:14px;">Acknowledgement</div>
+      <table style="width:100%;border-collapse:collapse;font-size:12.5px;">
+        <tr><td style="padding:8px 14px;border-bottom:1px solid var(--border);font-weight:600;width:45%;background:#f0fdf4;">Signature Date</td><td style="padding:8px 14px;border-bottom:1px solid var(--border);background:#e8f5e9;">04-July-2026</td><td style="padding:8px 14px;border-bottom:1px solid var(--border);width:120px;"><span class="tag t-ro" style="margin:0">Filled by RO</span></td></tr>
+        <tr><td style="padding:8px 14px;border-bottom:1px solid var(--border);font-weight:600;background:#f0fdf4;">Principal Name</td><td style="padding:8px 14px;border-bottom:1px solid var(--border);background:#e8f5e9;color:var(--muted);font-style:italic;">Enter here</td><td style="padding:8px 14px;border-bottom:1px solid var(--border);"><span class="tag t-ro" style="margin:0">Filled by RO</span></td></tr>
+        <tr><td style="padding:8px 14px;border-bottom:1px solid var(--border);font-weight:600;background:#f0fdf4;">Camp Type</td><td style="padding:8px 14px;border-bottom:1px solid var(--border);background:#e8f5e9;">Her VOICE - SAKHI</td><td style="padding:8px 14px;border-bottom:1px solid var(--border);color:var(--red);font-weight:700;font-size:11px;">&#9940; Don't Touch</td></tr>
+        <tr><td style="padding:8px 14px;border-bottom:1px solid var(--border);font-weight:600;background:#f0fdf4;">Total Campers Reported</td><td style="padding:8px 14px;border-bottom:1px solid var(--border);background:#e8f5e9;">0</td><td style="padding:8px 14px;border-bottom:1px solid var(--border);color:var(--red);font-weight:700;font-size:11px;">&#9940; Don't Touch</td></tr>
+      </table>
+      <!-- Section 4: Previous Camp Link -->
+      <div style="background:#6b2139;color:#fff;padding:10px 16px;font-weight:700;font-style:italic;font-size:14px;">Please Enter the Details</div>
+      <table style="width:100%;border-collapse:collapse;font-size:12.5px;">
+        <tr><td style="padding:8px 14px;border-bottom:1px solid var(--border);font-weight:600;width:45%;">Sheet Link</td><td style="padding:8px 14px;border-bottom:1px solid var(--border);color:var(--muted);font-style:italic;">Paste link here (Disha/Sakhi/Supernova only)</td></tr>
+        <tr><td style="padding:8px 14px;border-bottom:1px solid var(--border);font-weight:600;">Sheet name</td><td style="padding:8px 14px;border-bottom:1px solid var(--border);color:var(--muted);font-style:italic;">Enter sheet name</td></tr>
+        <tr><td style="padding:8px 14px;font-weight:600;">Camp Location name</td><td style="padding:8px 14px;color:var(--muted);font-style:italic;">Enter location name</td></tr>
+      </table>
+    </div>
+    <div class="alert a-accent" style="margin-top:12px"><span>i</span><span>Green cells = RO fills. "Don't Touch" cells = auto-calculated. Bottom section (Sheet Link, Sheet name, Camp Location) is only for Disha/Sakhi/Supernova.</span></div>
+  </div>
+
+  <div class="divider"><hr><span>Field Coordinator</span><hr></div>
+
+  <div class="card"><div class="card-head"><div class="card-num">02</div><div class="card-title">Entering Camper Details</div></div><div class="compare"><div class="cmp cmp-a"><p class="cmp-label">Disha / Sakhi / Supernova</p><p style="color:var(--ink)">Name, Class, Phone, UID, District, School <strong>auto-fill</strong> from previous camp. New campers: add <strong>below</strong> the last row.</p></div><div class="cmp cmp-b"><p class="cmp-label">Parichay / Fireflies</p><p style="color:var(--ink)">No auto-fill. Enter <strong>every</strong> camper's Name, Class, Phone, District, Institution manually.</p></div></div><div class="alert a-red" style="margin-top:10px"><span>!</span><span>Never type into auto-filled rows. Formulas will break.</span></div><div class="alert a-orange"><span>!</span><span>After Day 4 morning, stop adding new campers.</span></div></div>
+
+  <div class="card"><div class="card-head"><div class="card-num">03</div><div class="card-title">Counsellor List + FC <span class="tag t-day">Day 1</span></div></div><p>Fill tab 6 on <strong>Day 1</strong> before anything else.</p><div class="col-list"><div class="col-row r-edit"><span class="col-n">Col B: Name <span class="tag t-edit">Edit</span></span><span class="col-d">FC in Row 3, CCs from Row 4+</span></div><div class="col-row r-edit"><span class="col-n">Col C: College <span class="tag t-edit">Edit</span></span><span class="col-d">Institution</span></div><div class="col-row r-edit"><span class="col-n">Col D: Email <span class="tag t-edit">Edit</span></span><span class="col-d">Email address</span></div><div class="col-row r-edit"><span class="col-n">Col E: Batch No. <span class="tag t-edit">Edit</span></span><span class="col-d">CC's batch (blank for FC)</span></div><div class="col-row r-auto"><span class="col-n">Col F: Designation <span class="tag t-auto">Pre-set</span></span><span class="col-d">"Field Coordinator" / "Camp Counsellor"</span></div></div></div>
+
+  <div class="card"><div class="card-head"><div class="card-num">04</div><div class="card-title">End of Camper Data: Column Guide</div></div><p style="font-weight:700;color:var(--red);margin-bottom:4px">Auto-filled (do not edit)</p><div class="col-list"><div class="col-row r-auto"><span class="col-n">Col A: S No.</span><span class="col-d">Serial</span></div><div class="col-row r-auto"><span class="col-n">Col B: UID</span><span class="col-d">Unique ID</span></div><div class="col-row r-auto"><span class="col-n">Col I: Arrival Date</span><span class="col-d">Based on attendance</span></div><div class="col-row r-auto"><span class="col-n">Col T: Total Days</span><span class="col-d">Counts P marks</span></div><div class="col-row r-auto"><span class="col-n">Col U: Status</span><span class="col-d">70%+ = Completed</span></div><div class="col-row r-auto"><span class="col-n">Col Z: Dropout Date</span><span class="col-d">Date = dropped out</span></div><div class="col-row r-auto"><span class="col-n">Col AD: Both IA</span><span class="col-d">Pre + Post check</span></div></div><p style="font-weight:700;color:var(--green);margin:16px 0 4px">FC editable</p><div class="col-list"><div class="col-row r-edit"><span class="col-n">Col E: Student Name <span class="tag t-edit">Edit</span></span><span class="col-d">New campers only (all for Parichay/Fireflies)</span></div><div class="col-row r-edit"><span class="col-n">Col F: Class <span class="tag t-edit">First</span></span><span class="col-d">Do this first</span></div><div class="col-row r-edit"><span class="col-n">Col G: Phone <span class="tag t-edit">Edit</span></span><span class="col-d">New only (all for Parichay/Fireflies)</span></div><div class="col-row r-edit"><span class="col-n">Col H: Consent <span class="tag t-edit">Edit</span></span><span class="col-d">Consent form status</span></div><div class="col-row r-daily"><span class="col-n">Col J to S: Attendance <span class="tag t-daily">Daily</span></span><span class="col-d">P or A dropdown, Day 0 to 10</span></div><div class="col-row r-edit"><span class="col-n">Col X: Batch <span class="tag t-edit">Edit</span></span><span class="col-d">Batch 1 = CC 1, etc.</span></div><div class="col-row r-edit"><span class="col-n">Col Y: CC Name <span class="tag t-edit">Edit</span></span><span class="col-d">Counsellor for batch</span></div><div class="col-row r-edit"><span class="col-n">Col AA: Dropout Reason <span class="tag t-edit">Edit</span></span><span class="col-d">Sick, Went home, etc.</span></div><div class="col-row r-daily"><span class="col-n">Col AB: Pre IA <span class="tag t-day">Day 1</span></span><span class="col-d">Pre-assessment</span></div><div class="col-row r-daily"><span class="col-n">Col AC: Post IA <span class="tag t-day">Day 9</span></span><span class="col-d">Post-assessment</span></div><div class="col-row r-edit"><span class="col-n">Col AE: Ratings <span class="tag t-edit">Edit</span></span><span class="col-d">Collect from CCs</span></div></div></div>
+
+  <!-- END OF CAMPER DATA SHEET MOCKUP -->
+  <div class="card" style="overflow-x:auto;">
+    <div class="card-head"><div class="card-title">End of Camper Data Sheet (How it looks)</div></div>
+    <div style="border:1px solid var(--border);border-radius:10px;overflow:hidden;margin-top:8px;min-width:900px;">
+      <table style="width:100%;border-collapse:collapse;font-size:11px;">
+        <thead>
+          <tr style="background:#6b2139;color:#fff;font-size:10px;text-transform:uppercase;letter-spacing:.5px;">
+            <th style="padding:8px 6px;text-align:left;min-width:35px">S No.</th>
+            <th style="padding:8px 6px;text-align:left;min-width:50px">UID</th>
+            <th style="padding:8px 6px;text-align:left;min-width:60px">District</th>
+            <th style="padding:8px 6px;text-align:left;min-width:80px">Institution</th>
+            <th style="padding:8px 6px;text-align:left;min-width:80px;background:#2e7d32;color:#fff;">Name</th>
+            <th style="padding:8px 6px;text-align:left;min-width:40px;background:#2e7d32;color:#fff;">Class</th>
+            <th style="padding:8px 6px;text-align:left;min-width:60px;background:#2e7d32;color:#fff;">Phone</th>
+            <th style="padding:8px 6px;text-align:left;min-width:55px;background:#2e7d32;color:#fff;">Consent</th>
+            <th style="padding:8px 6px;text-align:left;min-width:55px">Arrival</th>
+            <th style="padding:8px 6px;text-align:center;min-width:30px;background:#e65100;color:#fff;">D0</th>
+            <th style="padding:8px 6px;text-align:center;min-width:30px;background:#e65100;color:#fff;">D1</th>
+            <th style="padding:8px 6px;text-align:center;min-width:30px;background:#e65100;color:#fff;">D2</th>
+            <th style="padding:8px 6px;text-align:center;min-width:22px;background:#e65100;color:#fff;">...</th>
+            <th style="padding:8px 6px;text-align:left;min-width:35px">Total</th>
+            <th style="padding:8px 6px;text-align:left;min-width:60px">Status</th>
+            <th style="padding:8px 6px;text-align:left;min-width:40px;background:#2e7d32;color:#fff;">Batch</th>
+            <th style="padding:8px 6px;text-align:left;min-width:50px;background:#2e7d32;color:#fff;">CC</th>
+            <th style="padding:8px 6px;text-align:left;min-width:50px">Drop Date</th>
+            <th style="padding:8px 6px;text-align:left;min-width:55px;background:#2e7d32;color:#fff;">Reason</th>
+            <th style="padding:8px 6px;text-align:left;min-width:40px;background:#333;color:#fff;">Pre IA</th>
+            <th style="padding:8px 6px;text-align:left;min-width:40px;background:#333;color:#fff;">Post IA</th>
+            <th style="padding:8px 6px;text-align:left;min-width:50px;background:#2e7d32;color:#fff;">Rating</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr style="background:#fff;"><td style="padding:6px;border-bottom:1px solid #eee;">1</td><td style="padding:6px;border-bottom:1px solid #eee;color:var(--muted);">8642</td><td style="padding:6px;border-bottom:1px solid #eee;color:var(--muted);font-style:italic;"></td><td style="padding:6px;border-bottom:1px solid #eee;color:var(--muted);font-style:italic;"></td><td style="padding:6px;border-bottom:1px solid #eee;font-weight:600;">ASHA</td><td style="padding:6px;border-bottom:1px solid #eee;">8</td><td style="padding:6px;border-bottom:1px solid #eee;">98xx</td><td style="padding:6px;border-bottom:1px solid #eee;"></td><td style="padding:6px;border-bottom:1px solid #eee;background:#fef2f2;color:var(--red);font-size:10px;">Not Part.</td><td style="padding:6px;border-bottom:1px solid #eee;text-align:center;">P</td><td style="padding:6px;border-bottom:1px solid #eee;text-align:center;">A</td><td style="padding:6px;border-bottom:1px solid #eee;text-align:center;">P</td><td style="padding:6px;border-bottom:1px solid #eee;text-align:center;">...</td><td style="padding:6px;border-bottom:1px solid #eee;">7</td><td style="padding:6px;border-bottom:1px solid #eee;color:var(--green);font-weight:600;font-size:10px;">Completed</td><td style="padding:6px;border-bottom:1px solid #eee;">1</td><td style="padding:6px;border-bottom:1px solid #eee;">CC 1</td><td style="padding:6px;border-bottom:1px solid #eee;"></td><td style="padding:6px;border-bottom:1px solid #eee;"></td><td style="padding:6px;border-bottom:1px solid #eee;">Yes</td><td style="padding:6px;border-bottom:1px solid #eee;">Yes</td><td style="padding:6px;border-bottom:1px solid #eee;">4</td></tr>
+          <tr style="background:#fafaf8;"><td style="padding:6px;border-bottom:1px solid #eee;">2</td><td style="padding:6px;border-bottom:1px solid #eee;color:var(--muted);">-</td><td style="padding:6px;border-bottom:1px solid #eee;"></td><td style="padding:6px;border-bottom:1px solid #eee;"></td><td style="padding:6px;border-bottom:1px solid #eee;color:var(--muted);font-style:italic;"></td><td style="padding:6px;border-bottom:1px solid #eee;"></td><td style="padding:6px;border-bottom:1px solid #eee;"></td><td style="padding:6px;border-bottom:1px solid #eee;"></td><td style="padding:6px;border-bottom:1px solid #eee;background:#fef2f2;color:var(--red);font-size:10px;">Not Part.</td><td style="padding:6px;border-bottom:1px solid #eee;text-align:center;">-</td><td style="padding:6px;border-bottom:1px solid #eee;text-align:center;">-</td><td style="padding:6px;border-bottom:1px solid #eee;text-align:center;">-</td><td style="padding:6px;border-bottom:1px solid #eee;text-align:center;">...</td><td style="padding:6px;border-bottom:1px solid #eee;">0</td><td style="padding:6px;border-bottom:1px solid #eee;color:var(--red);font-weight:600;font-size:10px;background:#fef2f2;">Drop out</td><td style="padding:6px;border-bottom:1px solid #eee;"></td><td style="padding:6px;border-bottom:1px solid #eee;"></td><td style="padding:6px;border-bottom:1px solid #eee;font-size:10px;">25-Jun</td><td style="padding:6px;border-bottom:1px solid #eee;"></td><td style="padding:6px;border-bottom:1px solid #eee;">-</td><td style="padding:6px;border-bottom:1px solid #eee;">No</td><td style="padding:6px;border-bottom:1px solid #eee;">-</td></tr>
+          <tr style="background:#fff;"><td style="padding:6px;border-bottom:1px solid #eee;">3</td><td style="padding:6px;border-bottom:1px solid #eee;color:var(--muted);">-</td><td style="padding:6px;border-bottom:1px solid #eee;"></td><td style="padding:6px;border-bottom:1px solid #eee;"></td><td style="padding:6px;border-bottom:1px solid #eee;color:var(--muted);font-style:italic;"></td><td style="padding:6px;border-bottom:1px solid #eee;"></td><td style="padding:6px;border-bottom:1px solid #eee;"></td><td style="padding:6px;border-bottom:1px solid #eee;"></td><td style="padding:6px;border-bottom:1px solid #eee;background:#fef2f2;color:var(--red);font-size:10px;">Not Part.</td><td style="padding:6px;border-bottom:1px solid #eee;text-align:center;">-</td><td style="padding:6px;border-bottom:1px solid #eee;text-align:center;">-</td><td style="padding:6px;border-bottom:1px solid #eee;text-align:center;">-</td><td style="padding:6px;border-bottom:1px solid #eee;text-align:center;">...</td><td style="padding:6px;border-bottom:1px solid #eee;">0</td><td style="padding:6px;border-bottom:1px solid #eee;color:var(--red);font-weight:600;font-size:10px;background:#fef2f2;">Drop out</td><td style="padding:6px;border-bottom:1px solid #eee;"></td><td style="padding:6px;border-bottom:1px solid #eee;"></td><td style="padding:6px;border-bottom:1px solid #eee;font-size:10px;">25-Jun</td><td style="padding:6px;border-bottom:1px solid #eee;"></td><td style="padding:6px;border-bottom:1px solid #eee;">-</td><td style="padding:6px;border-bottom:1px solid #eee;">No</td><td style="padding:6px;border-bottom:1px solid #eee;">-</td></tr>
+        </tbody>
+      </table>
+    </div>
+    <div style="display:flex;gap:8px;margin-top:12px;flex-wrap:wrap;">
+      <div style="display:flex;align-items:center;gap:6px;font-size:11px;"><span style="width:14px;height:14px;background:#6b2139;border-radius:3px;display:inline-block;"></span> Maroon = auto columns</div>
+      <div style="display:flex;align-items:center;gap:6px;font-size:11px;"><span style="width:14px;height:14px;background:#2e7d32;border-radius:3px;display:inline-block;"></span> Green = FC editable</div>
+      <div style="display:flex;align-items:center;gap:6px;font-size:11px;"><span style="width:14px;height:14px;background:#e65100;border-radius:3px;display:inline-block;"></span> Orange = daily attendance</div>
+      <div style="display:flex;align-items:center;gap:6px;font-size:11px;"><span style="width:14px;height:14px;background:#333;border-radius:3px;display:inline-block;"></span> Dark = day-specific (Pre/Post IA)</div>
+    </div>
+    <div class="alert a-accent" style="margin-top:10px"><span>i</span><span>Scroll left/right to see all columns. Row 1 with data (ASHA) shows a filled example. Rows 2 and 3 show unfilled/dropout state.</span></div>
+  </div>
+
+  <div class="card"><div class="card-head"><div class="card-num">05</div><div class="card-title">Batch Assignment</div></div><div class="bg"><div class="bc"><p class="bc-n">Batch 1</p><p class="bc-c">CC 1</p><p class="bc-cl">e.g., Class 7</p></div><div class="bc"><p class="bc-n">Batch 2</p><p class="bc-c">CC 2</p><p class="bc-cl">e.g., Class 8</p></div><div class="bc"><p class="bc-n">Batch 3</p><p class="bc-c">CC 3</p><p class="bc-cl">e.g., Class 9</p></div></div></div>
+
+  <div class="card"><div class="card-head"><div class="card-num">06</div><div class="card-title">Key Dates and Timeline</div></div><div class="dates"><div class="dc dc-1"><p class="dc-w">Day 1</p><p class="dc-c">Col AB</p><p class="dc-t">Pre IA</p></div><div class="dc dc-2"><p class="dc-w">Day 9</p><p class="dc-c">Col AC</p><p class="dc-t">Post IA</p></div><div class="dc dc-3"><p class="dc-w">As needed</p><p class="dc-c">Col AA</p><p class="dc-t">Dropout</p></div><div class="dc dc-4"><p class="dc-w">End</p><p class="dc-c">Col AE</p><p class="dc-t">Ratings</p></div></div><div class="tl-bar" style="margin-top:12px"><div class="tl on"><p class="tl-d">0</p><p class="tl-a">Start</p></div><div class="tl on"><p class="tl-d">1</p><p class="tl-a">Pre IA</p></div><div class="tl"><p class="tl-d">2</p></div><div class="tl"><p class="tl-d">3</p></div><div class="tl warn"><p class="tl-d">4</p><p class="tl-a">Cutoff</p></div><div class="tl"><p class="tl-d">5</p></div><div class="tl"><p class="tl-d">6</p></div><div class="tl"><p class="tl-d">7</p></div><div class="tl"><p class="tl-d">8</p></div><div class="tl on"><p class="tl-d">9</p><p class="tl-a">Post IA</p></div><div class="tl"><p class="tl-d">10</p><p class="tl-a">End</p></div></div></div>
+
+  <div class="card"><div class="card-head"><div class="card-num">07</div><div class="card-title">Order of Operations</div></div><div class="steps"><div class="step"><div class="sn">1</div><p>Update <strong>Class</strong> (Col F) for all students.</p></div><div class="step"><div class="sn">2</div><p>Assign <strong>Batches</strong> (Col X) and <strong>CC Names</strong> (Col Y).</p></div><div class="step"><div class="sn">3</div><p>Fill <strong>Counsellor List + FC</strong> (Tab 6) on Day 1.</p></div><div class="step"><div class="sn">4</div><p>Mark <strong>Attendance</strong> daily. Update <strong>Consent</strong> (Col H).</p></div><div class="step"><div class="sn">5</div><p><strong>Pre IA</strong> (Col AB) Day 1. <strong>Post IA</strong> (Col AC) Day 9.</p></div><div class="step"><div class="sn">6</div><p><strong>Dropout Reasons</strong> (Col AA) as needed. <strong>Ratings</strong> (Col AE) from CCs.</p></div></div></div>
+
+  <div class="card"><div class="card-head"><div class="card-num">08</div><div class="card-title">Camp Coordinator Report (Tab 8)</div></div><p>Only edit rows: <strong>6, 8, 10, 12, 14, 16, 18, 20, 22</strong>.</p><div class="rtags"><span class="rtag">6</span><span class="rtag">8</span><span class="rtag">10</span><span class="rtag">12</span><span class="rtag">14</span><span class="rtag">16</span><span class="rtag">18</span><span class="rtag">20</span><span class="rtag">22</span></div><p style="margin-top:10px"><strong>Images:</strong> Insert > Image > "Image in cell" (not over cells) > Paste Drive link or upload.</p></div>
+
+  <div class="card"><div class="card-head"><div class="card-num">09</div><div class="card-title">Printing</div></div><div class="steps"><div class="step"><div class="sn">1</div><p>Recheck all data. Attendance fully marked.</p></div><div class="step"><div class="sn">2</div><p>Get <strong>RO approval</strong>.</p></div><div class="step"><div class="sn">3</div><p>Use the <strong>Drive PDF link</strong>. Don't print from the sheet.</p></div></div></div>
+
+  <div class="card"><div class="card-head"><div class="card-num">10</div><div class="card-title">What NOT To Do</div></div><div class="rules"><div class="rule">Don't edit automated sheets.</div><div class="rule">Don't modify formulas or delete rows.</div><div class="rule">Don't edit the UID column.</div><div class="rule">Don't type into auto-filled rows.</div><div class="rule">Don't add campers after Day 4.</div><div class="rule">Don't print without RO approval.</div></div></div>
+</div>
+
+<div class="footer"><span>Voice4Girls &middot; Camp SOP Portal</span><span>Final Version &middot; June 2026</span></div>
+
+<script>
+function showPage(id){
+  document.getElementById('home').style.display='none';
+  document.querySelectorAll('.page').forEach(p=>p.classList.remove('active'));
+  document.getElementById('page-'+id).classList.add('active');
+  window.scrollTo(0,0);
+  document.querySelectorAll('.topnav-links a').forEach(a=>a.classList.remove('active'));
+  document.querySelector(`.topnav-links a[onclick="showPage('${id}')"]`)?.classList.add('active');
+}
+function showHome(){
+  document.getElementById('home').style.display='block';
+  document.querySelectorAll('.page').forEach(p=>p.classList.remove('active'));
+  window.scrollTo(0,0);
+  document.querySelectorAll('.topnav-links a').forEach(a=>a.classList.remove('active'));
+}
+</script>
+
+</body>
+</html>
